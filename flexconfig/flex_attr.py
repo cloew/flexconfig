@@ -4,15 +4,16 @@ from .kao_descriptor import KaoDescriptor
 class FlexAttr(KaoDescriptor):
     """ Descriptor for an Attr that may exist in an underlying data store or not """
     
-    def __init__(self, attr, data=None):
+    def __init__(self, attr, data=None, default=None):
         """ Initialize with the attribute and the data container attr """
         self.attr = attr
         self.data = data
+        self.default = default
             
     def __getvalue__(self, obj):
         """ Return the attr value """
         data = getdata(obj, self.data)
-        return data[self.attr] if self.attr in data else None
+        return data[self.attr] if self.attr in data else self.default
     
     def __set__(self, obj, value):
         """ Set the proper value for the attribute """
